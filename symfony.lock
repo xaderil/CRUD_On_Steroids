@@ -486,7 +486,7 @@
         ]
     },
     "symfony/runtime": {
-        "version": "v5.4.0"
+        "version": "v5.4.1"
     },
     "symfony/security-bundle": {
         "version": "5.4",
