@@ -1,0 +1,49 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#menu {
+  list-style: none;
+  padding-left: 0;
+  text-align: center;
+  margin: 35px 0 0;
+}
+
+#menu li {
+  transition: 0.2s background-color;
+  padding: 8px;
+  display: inline-block;
+  font-family: verdana, serif;
+  background-color: #19A6EB;
+  margin: 0;
+  font-size: 20px;
+}
+
+#menu li:hover {
+  background-color: #3196E3;
+}
+
+#menuContainer {
+  background-color: #19A6EB;
+  box-shadow: 0 0 10px black;
+}
+
+.textBlock {
+  font-family: verdana, serif;
+  background-color: white;
+  border-radius: 0;
+  box-shadow: 0 0 13px black;
+  padding: 20px;
+  margin: 40px 20px 20px;
+  font-size: 20px;
+  text-align: justify;
+  transition: 0.7s all;
+}
+
+.text.res {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+
