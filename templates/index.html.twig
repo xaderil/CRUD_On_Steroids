@@ -1,16 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div id = "cont1">
         <ul class="row" id="menu">
             <li class = "col justify-content-center"></li>
             <li class = "col justify-content-center"><a href="/" class = "text-decoration-none text-reset">Библиотека</a></li>
             {# Залогинен ? return приветствие и кнопка перехода в профиль : кнопка входа со всплывающим окном #}
-            <li class = "col justify-content-center"></li>
+            <li class = "col justify-content-right"><button class="btn btn-success mb-1 no-gutters" data-toggle="modal" data-target="#sign_in"><i class="fa fa-sign-in no-gutters"></i></button></li>
         </ul>
     </div>
+
+
+
+
     <div class="text res fadeIn animated">
         {# Тут прилепить кнопку смены книг на авторов через AJAX #}
     </div>
+
+    {# Вставка блоков с модальными окнами #}
+    {{ block("loginForm", "loginForm.html.twig") }}
+    {{ block("registerForm", "registerForm.html.twig") }}
+
 {% endblock %}
 

@@ -1,0 +1,36 @@
+
+{% block loginForm %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="sign_in">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title">Вход в систему</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="name" value="" placeholder="Имя">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="last_name" value="" placeholder="Фамилия">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="pos" value="" placeholder="Должность">
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" name="submit" class="btn btn-primary">Добавить</button>
+                            <div class="row justify-content-center">
+                                <button class="btn btn-success mb-1" data-toggle="modal" data-target="#sign_up" data-dismiss="modal">Нет аккаунта? Зарегистрироваться</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
