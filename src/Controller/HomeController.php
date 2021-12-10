@@ -18,57 +18,56 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(Request $request, GlobalVariables $globalVariables): Response
+    public function index(Request $request): Response
     {
-
+        // Делаем форму и чекаем запрос
         $book = new Book();
         $book->addAuthor(new Author());
 
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
-//        if ($form->isSubmitted() && $form->isValid()) {
-                    $authors = ['Dicker Dickers', 'Dostoevsky'];
-                    $em = $this->getDoctrine()->getManager();
+        // Если в отправленной форме лежит что-то идеологически верное, то закидываем в БД
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                    $book = new Book();
-                    $book->setTitle('War and peace');
-                    $book->setDescription('Voevali');
-                    $book->setPublicationYear(2020);
-                    $book->setAuthorsCount(count($authors));
-                    $em->persist($book);
-                    $em->flush();
+            $authorsArrayCollection = $form['authors']->getData();
 
-                    foreach ($authors as $authorName) {
-                        if ($em->getRepository(Author::class)->findOneBy(array('name' => $authorName))) {
-                            $author = $em->getRepository(Author::class)->findOneBy(array('name' => $authorName));
-                            $author->setBooksCount($author->getBooksCount() + 1);
-                            $author->addBook($book);
-                        } else {
-                            $author = new Author();
-                            $author->setName($authorName);
-                            $author->addBook($book);
-                            $author->setBooksCount(1);
-                            $em->persist($author);
-                        }
-                        $em->flush();
-            //
-            //        }
+            // Сначала объект книги закидываем
+            $book = new Book();
+            $book->setTitle($form['title']->getData());
+            $book->setDescription($form['description']->getData());
+            $book->setPublicationYear($form['publicationYear']->getData());
+            $book->setAuthorsCount(count($authorsArrayCollection));
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($book);
+            $em->flush();
+
+            // Потом перебираем каждого автора книги и чекаем его существование. Если нету - закидываем в БД
+            foreach ($authorsArrayCollection as $author) {
+                if ($em->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
+
+                    $author = $em->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
+                    $author->setBooksCount($author->getBooksCount() + 1);
+                    $author->addBook($book);
+
+                } else {
+
+                    $author->addBook($book);
+                    $author->setBooksCount(1);
+                    $em->persist($author);
+
+                }
+
+                $em->flush();
+            }
+            return $this->redirectToRoute('home');
         }
-        $globalVariables->counter++;
+
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'form' => $form->createView(),
-            'auths' => $globalVariables->counter
         ]);
-    }
-
-    /**
-     * @Route("/inc", name="checkAuthorsCount")
-     */
-    public function incrementAuthorsCount(GlobalVariables $globalVariables): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
-        $globalVariables->setCounter($globalVariables->getCounter() + 1);
-        return $this->redirectToRoute('home');
     }
 }
