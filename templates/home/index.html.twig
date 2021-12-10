@@ -11,44 +11,19 @@
             {# <li class = "col justify-content-right"><button class="btn btn-success mb-1 no-gutters" data-toggle="modal" data-target="#sign_in"><i class="fa fa-sign-in no-gutters"></i></button></li>#}
         </ul>
     </div>
-
-    <li class = "col justify-content-right"><button class="btn btn-success mb-1 no-gutters" data-toggle="modal" data-target="#createBook"><i class="fa fa-plus-circle no-gutters"></i></button></li>
-    <div class="shadow p-3">
-
-
-        {{ form_start(form) }}
-            {{ form_row(form._token) }}
-
-            {{ form_row(form.title) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.publicationYear) }}
-
-            <ul id="email-fields-list"
-                data-prototype="{{ form_widget(form.authors.vars.prototype)|e }}"
-                data-widget-tags="{{ '<li></li>'|e }}"
-                data-widget-counter="{{ form.authors|length }}">
-                {% for authorField in form.authors %}
-                    <li>
-                        {{ form_errors(authorField) }}
-                        {{ form_widget(authorField) }}
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <button type="button"
-                    class="add-another-collection-widget"
-                    data-list-selector="#email-fields-list">Add another email</button>
-
-        {{ form_end(form) }}
-
-{#        <button class="btn btn-success mb-1 no-gutters" id="testbtn"></button>#}
-        {# Тут прилепить кнопку смены книг на авторов через AJAX #}
+    <div class="row justify-content-center">
+        <div class="col"></div>
+        <div class="col-2 justify-content-center">
+            <button class="btn btn-success mb-1 no-gutters btn-block" data-toggle="modal" data-target="#createBook"><i class="fa fa-plus-circle no-gutters"></i></button>
+        </div>
+        <div class="col"></div>
     </div>
 
-    {# Вставка блоков с модальными окнами #}
-    {{ block("loginForm", "htmlForms/loginForm.html.twig") }}
-    {{ block("registerForm", "htmlForms/registerForm.html.twig") }}
 
+    {# Вставка блоков с модальными окнами #}
+    {# block("loginForm", "htmlForms/loginForm.html.twig") #}
+    {{ block("addBookForm", "htmlForms/addBookForm.html.twig") }}
+    {# block("registerForm", "htmlForms/registerForm.html.twig") #}
 
 
 {% endblock %}

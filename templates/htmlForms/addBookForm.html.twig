@@ -1,0 +1,54 @@
+{% block addBookForm %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="createBook">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавление книги</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    {{ form_start(form) }}
+                    {{ form_row(form._token) }}
+                    <div class="form-group">
+                        {{ form_row(form.title, {'attr': {'class': 'form-control'}, 'label' : 'Название книги'}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.description, {'attr': {'class': 'form-control'}, 'label' : 'Описание книги'}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.publicationYear, {'attr': {'class': 'form-control'}, 'label' : 'Год публикации'}) }}
+                    </div>
+
+                    <ul id="email-fields-list" class="list-unstyled"
+                        data-prototype="{{ form_widget(form.authors.vars.prototype, {'attr': {'class': 'form-control'}} )|e }}"
+                        data-widget-tags="{{ '<div class="form-group"></div>'|e }}"
+                        data-widget-counter="{{ form.authors|length }}">
+                        {% for authorField in form.authors %}
+                        <div class="form-group">
+                            {{ form_errors(authorField) }}
+                            {{ form_row(authorField, {'attr': {'class': 'form-control'}, 'label': 'Список авторов'}) }}
+                        </div>
+                        {% endfor %}
+                    </ul>
+
+                    <button type="button"
+                            class="add-another-collection-widget btn btn-block btn-primary"
+                            data-list-selector="#email-fields-list">Еще автор</button>
+
+
+
+
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            {{ form_row(form.send, {'attr': {'class': 'btn btn-primary'}, 'label' : 'Добавить'}) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

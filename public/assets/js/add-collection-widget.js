@@ -9,7 +9,7 @@ jQuery(document).ready(function () {
         // replace the "__name__" used in the id and name of the prototype
         // with a number that's unique to your emails
         // end name attribute looks like name="contact[emails][2]"
-        newWidget = newWidget.replace(/__name__/g, counter);
+
         // Increase the counter
         counter++;
         // And store it, the length cannot be used if deleting widgets is allowed
