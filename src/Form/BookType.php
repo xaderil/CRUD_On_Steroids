@@ -23,7 +23,10 @@ class BookType extends AbstractType
             ->add('publicationYear', NumberType::class)
             ->add('authors',CollectionType::class, array(
                 'entry_type' => AuthorType::class,
-                'entry_options' => ['label' => false]))
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false
+                ))
             ->add('send', SubmitType::class);
     }
 

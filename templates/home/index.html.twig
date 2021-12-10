@@ -14,15 +14,44 @@
 
     <li class = "col justify-content-right"><button class="btn btn-success mb-1 no-gutters" data-toggle="modal" data-target="#createBook"><i class="fa fa-plus-circle no-gutters"></i></button></li>
     <div class="shadow p-3">
-        {{ form(form) }}
+
+
+        {{ form_start(form) }}
+            {{ form_row(form._token) }}
+
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.publicationYear) }}
+
+            <ul id="email-fields-list"
+                data-prototype="{{ form_widget(form.authors.vars.prototype)|e }}"
+                data-widget-tags="{{ '<li></li>'|e }}"
+                data-widget-counter="{{ form.authors|length }}">
+                {% for authorField in form.authors %}
+                    <li>
+                        {{ form_errors(authorField) }}
+                        {{ form_widget(authorField) }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <button type="button"
+                    class="add-another-collection-widget"
+                    data-list-selector="#email-fields-list">Add another email</button>
+
+        {{ form_end(form) }}
+
+
         {{ auths }}
-        <a href="{{ path('checkAuthorsCount') }}" class="btn btn-primary">Increment</a>
+{#        <button class="btn btn-success mb-1 no-gutters" id="testbtn"></button>#}
         {# Тут прилепить кнопку смены книг на авторов через AJAX #}
     </div>
 
     {# Вставка блоков с модальными окнами #}
     {{ block("loginForm", "htmlForms/loginForm.html.twig") }}
     {{ block("registerForm", "htmlForms/registerForm.html.twig") }}
+
+
 
 {% endblock %}
 
