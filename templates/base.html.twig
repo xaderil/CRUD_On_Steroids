@@ -10,24 +10,7 @@
     {% endblock %}
 </head>
 <body>
-<nav
-        class="navbar navbar-expand-lg navbar-light bg-light"
-        style="height: 70px;"
->
-    <a class="navbar-brand" href="#">Symfony</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
-    <ul class="nav navbar-nav navbar-right">
-            <li><a class="nav-link" href="{{ path('home') }}">View List</a></li>
-            <li><a class="nav-link" href="{{ path('app_logout') }}">Logout</a></li>
 
-
-            <li><a class="nav-link" href="{{ path('app_login') }}">Login</a></li>
-            <li>
-                <a class="nav-link" href="{{ path('registration') }}">Register</a>
-            </li>
-
-    </ul>
-</nav>
 {% block body %}{% endblock %}
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>

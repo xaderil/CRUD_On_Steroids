@@ -2,23 +2,24 @@
 
 {% block body %}
 
-    <div id = "cont1">
+    <div id = "cont1" class = "shadow mb-5">
         <ul class="row" id="menu">
             <li class = "col justify-content-center"></li>
             <li class = "col justify-content-center"><a href="/" class = "text-decoration-none text-reset">Библиотека</a></li>
+            <li class = "col justify-content-center"></li>
             {# Залогинен ? return приветствие и кнопка перехода в профиль : кнопка входа со всплывающим окном #}
-            <li class = "col justify-content-right"><button class="btn btn-success mb-1 no-gutters" data-toggle="modal" data-target="#sign_in"><i class="fa fa-sign-in no-gutters"></i></button></li>
+            {# <li class = "col justify-content-right"><button class="btn btn-success mb-1 no-gutters" data-toggle="modal" data-target="#sign_in"><i class="fa fa-sign-in no-gutters"></i></button></li>#}
         </ul>
     </div>
-    
 
-    <div class="text res fadeIn animated">
+    <div class="shadow p-3">
+        dick
         {# Тут прилепить кнопку смены книг на авторов через AJAX #}
     </div>
 
     {# Вставка блоков с модальными окнами #}
-    {{ block("loginForm", "loginForm.html.twig") }}
-    {{ block("registerForm", "registerForm.html.twig") }}
+    {{ block("loginForm", "htmlForms/loginForm.html.twig") }}
+    {{ block("registerForm", "htmlForms/registerForm.html.twig") }}
 
 {% endblock %}
 
