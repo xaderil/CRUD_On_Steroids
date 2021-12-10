@@ -8,24 +8,22 @@ body {
   padding-left: 0;
   text-align: center;
   margin: 35px 0 0;
+  box-shadow: 0 0 10px #1d2124;
 }
 
 #menu li {
   transition: 0.2s background-color;
   padding: 8px;
+  color: white;
   display: inline-block;
-  font-family: verdana, serif;
-  background-color: #19A6EB;
+  font-family: Sans-Serif;
+  background-color: #343a40;
   margin: 0;
-  font-size: 20px;
+  font-size: 25px;
 }
 
-#menu li:hover {
-  background-color: #3196E3;
-}
 
 #menuContainer {
-  background-color: #19A6EB;
   box-shadow: 0 0 10px black;
 }
 

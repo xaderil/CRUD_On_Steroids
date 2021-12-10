@@ -47,4 +47,11 @@ class LibrarianService extends AbstractController
 
     }
 
+    public function takeAllBooksFromShelves() {
+
+        $em = $this->getDoctrine()->getManager();
+        $books = $em->getRepository(Book::class)->findAll();
+        return $books;
+    }
+
 }

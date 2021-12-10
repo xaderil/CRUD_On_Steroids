@@ -2,15 +2,54 @@
 
 {% block body %}
 
-    <div id = "cont1" class = "shadow mb-5">
+    <div class = "shadow mb-4">
         <ul class="row" id="menu">
             <li class = "col justify-content-center"></li>
-            <li class = "col justify-content-center"><a href="/" class = "text-decoration-none text-reset">Библиотека</a></li>
+            <li class = "col justify-content-center"><a href="/" class = "text-decoration-none text-reset">БИБЛИОТЕКА</a></li>
             <li class = "col justify-content-center"></li>
             {# Залогинен ? return приветствие и кнопка перехода в профиль : кнопка входа со всплывающим окном #}
             {# <li class = "col justify-content-right"><button class="btn btn-success mb-1 no-gutters" data-toggle="modal" data-target="#sign_in"><i class="fa fa-sign-in no-gutters"></i></button></li>#}
         </ul>
     </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col mt-1">
+                <table class="table shadow ">
+                    <thead class="thead-dark">
+                    <tr style="text-align: center;">
+                        <th>№</th>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Год</th>
+                        <th>Авторы</th>
+                        <th>Действие</th>
+                    </tr>
+                    {% for book in books %}
+                    <tr style="text-align: center;">
+                        <td>{{ book.id }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.description }}</td>
+                        <td> {{ book.publicationYear }}</td>
+                        <td>
+                            {% if book.authorsCount > 1 %}
+                                <i>{{ book.authors|first.name }}</i> и др.
+                            {% else %}
+                                <i><{{ book.authors|first.name }}</i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="?edit=<?=$value['id'] ?>" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal<?=$value['id'] ?>"><i class="fa fa-edit"></i></a>
+                            <a href="?delete=<?=$value['id'] ?>" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal<?=$value['id'] ?>"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                        {% endfor %}
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col"></div>
         <div class="col-2 justify-content-center">

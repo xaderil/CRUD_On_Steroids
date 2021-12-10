@@ -34,10 +34,12 @@ class HomeController extends AbstractController
 
         }
 
+        $books = $librarian->takeAllBooksFromShelves();
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'form' => $form->createView(),
+            'books' => $books
         ]);
     }
 }
