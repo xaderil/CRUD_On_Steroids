@@ -20,37 +20,45 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, LibrarianService $librarian): Response
     {
-        // Делаем форму и чекаем запрос
+
+        // Отправляем на страницу форму объекта книги с одним указателем на автора и сразу все книги
         $book = new Book();
         $book->addAuthor(new Author());
 
-        $form = $this->createForm(BookType::class, $book);
-        $form->handleRequest($request);
-
-        // Если в отправленной форме лежит что-то идеологически верное, то закидываем в БД книгу с авторами
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $librarian->makeBookObjectInDatabase($form);
-            return $this->redirectToRoute('home');
-
-        }
-
-        $books = $librarian->getAllBooksFromShelves();
-
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'form' => $form->createView(),
-            'books' => $books
+            'form' => $this->createForm(BookType::class, $book)->createView(),
+            'books' => $librarian->getAllBooksFromShelves()
         ]);
+
     }
 
     /**
-     * @Route("/delete/{bookID}", name="delete")
+     * @Route("/createBook", name="createBook")
      */
-    public function delete(LibrarianService $librarian, int $bookID): RedirectResponse
+    public function createBook(Request $request, LibrarianService $librarian): RedirectResponse
     {
+
+        $form = $this->createForm(BookType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $librarian->makeBookObjectInDatabase($form);
+        }
+
+        return $this->redirectToRoute('home');
+
+    }
+
+    /**
+     * @Route("/deleteBook/{bookID}", name="delete")
+     */
+    public function deleteBook(LibrarianService $librarian, int $bookID): RedirectResponse
+    {
+
         $librarian->burnTheBookInTheBonfire($bookID);
         return $this->redirectToRoute('home');
+
     }
 }
 
