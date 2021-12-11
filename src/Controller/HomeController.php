@@ -6,6 +6,7 @@ use App\Entity\Author;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Service\LibrarianService;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,13 +35,22 @@ class HomeController extends AbstractController
 
         }
 
-        $books = $librarian->takeAllBooksFromShelves();
+        $books = $librarian->getAllBooksFromShelves();
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'form' => $form->createView(),
             'books' => $books
         ]);
+    }
+
+    /**
+     * @Route("/delete/{bookID}", name="delete")
+     */
+    public function delete(LibrarianService $librarian, int $bookID): RedirectResponse
+    {
+        $librarian->burnTheBookInTheBonfire($bookID);
+        return $this->redirectToRoute('home');
     }
 }
 
