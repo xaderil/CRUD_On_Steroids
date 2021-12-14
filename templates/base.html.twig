@@ -11,6 +11,17 @@
     {% endblock %}
 </head>
 <body>
+
+{# Верхняя линия #}
+<div class = "shadow mb-4">
+    <ul class="row" id="menu">
+        <li class = "col justify-content-center"><a href="/authors" class = "text-decoration-none text-reset">СПИСОК АВТОРОВ</a></li>
+        <li class = "col justify-content-center"><a href="/books" class = "text-decoration-none text-reset">СПИСОК КНИГ</a></li>
+        <li class = "col justify-content-center"><a href="/" class = "text-decoration-none text-reset">ВХОД В СИСТЕМУ</a></li>
+    </ul>
+</div>
+
+
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

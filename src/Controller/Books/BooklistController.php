@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Books;
 
 use App\Entity\Author;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Service\LibrarianService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class BooklistController extends AbstractController
 {
 
     /**
-     * @Route("/", name="home")
+     * @Route("/books", name="books")
      */
     public function index(Request $request, LibrarianService $librarian): Response
     {
@@ -25,7 +25,7 @@ class HomeController extends AbstractController
         $book = new Book();
         $book->addAuthor(new Author());
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('Books/index.html.twig', [
             'controller_name' => 'HomeController',
             'form' => $this->createForm(BookType::class, $book)->createView(),
             'books' => $librarian->getAllBooksFromShelves()
@@ -34,7 +34,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/createBook", name="createBook")
+     * @Route("/books/createBook", name="createBook")
      */
     public function createBook(Request $request, LibrarianService $librarian): RedirectResponse
     {
@@ -51,7 +51,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/deleteBook/{bookID}", name="delete")
+     * @Route("/books/deleteBook/{bookID}", name="deleteBook")
      */
     public function deleteBook(LibrarianService $librarian, int $bookID): RedirectResponse
     {
@@ -61,5 +61,3 @@ class HomeController extends AbstractController
 
     }
 }
-
-
