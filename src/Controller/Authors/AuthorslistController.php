@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Books;
+namespace App\Controller\Authors;
 
 use App\Entity\Author;
 use App\Entity\Book;
@@ -12,28 +12,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BooklistController extends AbstractController
+class AuthorslistController extends AbstractController
 {
 
     /**
-     * @Route("/books", name="books")
+     * @Route("/authors", name="authors")
      */
     public function index(Request $request, LibrarianService $librarian): Response
     {
 
-        // Отправляем на страницу форму объекта книги с одним указателем на автора и сразу все книги
-        $book = new Book();
-        $book->addAuthor(new Author());
-
-        return $this->render('Books/index.html.twig', [
-            'form' => $this->createForm(BookType::class, $book)->createView(),
-            'books' => $librarian->getAllBooks()
+        return $this->render('Authors/index.html.twig', [
+            'authors' => $librarian->getAllAuthors()
         ]);
 
     }
 
     /**
-     * @Route("/books/createBook", name="createBook")
+     * @Route("/authors/createAuthor", name="createAuthor")
      */
     public function createBook(Request $request, LibrarianService $librarian): RedirectResponse
     {
@@ -50,7 +45,7 @@ class BooklistController extends AbstractController
     }
 
     /**
-     * @Route("/books/deleteBook/{bookID}", name="deleteBook")
+     * @Route("/authors/deleteAuthor/{authorID}", name="deleteBook")
      */
     public function deleteBook(LibrarianService $librarian, int $bookID): RedirectResponse
     {

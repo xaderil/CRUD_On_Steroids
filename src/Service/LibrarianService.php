@@ -4,12 +4,19 @@ namespace App\Service;
 
 use App\Entity\Author;
 use App\Entity\Book;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 
 
 class LibrarianService extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->entityManager = $doctrine->getManager();
+    }
 
     public function makeBookObjectInDatabase(FormInterface $form) {
 
@@ -22,15 +29,14 @@ class LibrarianService extends AbstractController
         $book->setPublicationYear($form['publicationYear']->getData());
         $book->setAuthorsCount(count($authorsArrayCollection));
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($book);
-        $em->flush();
+        $this->entityManager->persist($book);
+        $this->entityManager->flush();
 
         // Потом перебираем каждого автора книги и чекаем его существование. Если нету - закидываем в БД
         foreach ($authorsArrayCollection as $author) {
-            if ($em->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
+            if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
 
-                $author = $em->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
+                $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
                 $author->setBooksCount($author->getBooksCount() + 1);
                 $author->addBook($book);
 
@@ -38,26 +44,29 @@ class LibrarianService extends AbstractController
 
                 $author->addBook($book);
                 $author->setBooksCount(1);
-                $em->persist($author);
+                $this->entityManager->persist($author);
 
             }
 
-            $em->flush();
+            $this->entityManager->flush();
         }
 
     }
 
-    public function getAllBooksFromShelves() {
+    public function getAllBooks(): array
+    {
+        return $this->entityManager->getRepository(Book::class)->findAll();
+    }
 
-        $em = $this->getDoctrine()->getManager();
-        return $em->getRepository(Book::class)->findAll();
+    public function getAllAuthors(): array
+    {
+        return $this->entityManager->getRepository(Author::class)->findAll();
     }
 
     public function burnTheBookInTheBonfire(int $id) {
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($em->getRepository(Book::class)->find($id));
-        $em->flush();
+        $this->entityManager->remove($this->entityManager->getRepository(Book::class)->find($id));
+        $this->entityManager->flush();
 
     }
 

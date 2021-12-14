@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {# Список авторов #}
+    <div class="container">
+        <div class="row">
+            <div class="col mt-1">
+                <table class="table shadow ">
+                    <thead class="thead-dark">
+                    <tr style="text-align: center;">
+                        <th>№</th>
+                        <th>Имя</th>
+                        <th>Количество книг</th>
+                    </tr>
+                    {% set counter = 0 %}
+                    {% for author in authors %}
+                        {% set counter = counter + 1 %}
+                        <tr style="text-align: center;">
+                            <td>{{ counter }}</td>
+                            <td>{{ author.name }}</td>
+                            <td>{{ author.booksCount }}</td>
+                        </tr>
+                    {% endfor %}
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    {# Вставка блоков с модальными окнами #}
+{#    {{ block("addBookForm", "htmlForms/addBookForm.html.twig") }}#}
+
+
+{% endblock %}
