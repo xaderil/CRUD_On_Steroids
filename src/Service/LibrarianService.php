@@ -13,6 +13,7 @@ use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class LibrarianService extends AbstractController
@@ -31,17 +32,40 @@ class LibrarianService extends AbstractController
         $this->dispatcher = new EventDispatcher();
     }
 
-    public function makeBookObjectInDatabase(FormInterface $form) {
+    public function makeBookObjectInDatabase(FormInterface $form, Request $request) {
 
-        $authorsArrayCollection = $form['authors']->getData();
 
+        $requestObject = $request->request;
+        foreach ($requestObject->all() as $data) {
+            if(is_array($data)) {
+                foreach ($data as $string) {
+                    if (is_array($string)) {
+                        foreach ($string as $elem) {
+                            if (is_array($elem)) {
+                                foreach ($elem as $hui) {
+                                    $this->logger->warning($hui);
+                                }
+                            } else {
+                                $this->logger->warning($elem);
+                            }
+                        }
+                    } else {
+                        $this->logger->warning($string);
+                    }
+                }
+            } else {
+                $this->logger->warning($data);
+            }
+
+        }
+        ;
         // Сначала объект книги закидываем
         $book = new Book();
         $book->setTitle($form['title']->getData());
         $book->setDescription($form['description']->getData());
         $book->setPublicationYear($form['publicationYear']->getData());
-        $book->setAuthorsCount(count($authorsArrayCollection));
-        foreach ($authorsArrayCollection as $author) {
+        $book->setAuthorsCount(count($authors));
+        foreach ($authors as $author) {
             if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
                 // Т.к. автор в БД уже лежит нужно получить указатель на него, иначе хрен велосипед поедет
                 $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));

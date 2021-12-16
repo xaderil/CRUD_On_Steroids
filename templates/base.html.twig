@@ -21,6 +21,8 @@
     </ul>
 </div>
 
+{% block body %}{% endblock %}
+
 
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
@@ -29,10 +31,9 @@
             crossorigin="anonymous"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/add-collection-widget.js') }}"></script>
+    <script src="{{ asset('assets/js/addAuthorField.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-editable.js') }}"></script>
 {% endblock %}
-
-{% block body %}{% endblock %}
 
 <footer class="page-footer font-small blue">
     <div class="footer-copyright text-center py-3">© 2021 Copyright:

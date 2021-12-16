@@ -51,7 +51,7 @@ class BooklistController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $librarian->makeBookObjectInDatabase($form);
+            $librarian->makeBookObjectInDatabase($form, $request);
         }
 
 
