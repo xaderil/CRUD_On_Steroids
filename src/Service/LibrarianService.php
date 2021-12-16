@@ -4,22 +4,31 @@ namespace App\Service;
 
 use App\Entity\Author;
 use App\Entity\Book;
+use App\Event\CreateBookEvent;
+use App\EventListener\CreateBookListener;
+use App\EventSubscriber\CreateBookSubscriber;
 use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormInterface;
 
 
 class LibrarianService extends AbstractController
 {
     private $entityManager;
+    private $dispatcher;
+    private $logger;
 
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->entityManager = $doctrine->getManager();
+
         $this->logger = new Logger('name');
-        $this->logger->pushHandler(new StreamHandler('php://stdout', Logger::WARNING)); // <<< uses a stream
+        $this->logger->pushHandler(new StreamHandler('php://stdout', Logger::WARNING));
+
+        $this->dispatcher = new EventDispatcher();
     }
 
     public function makeBookObjectInDatabase(FormInterface $form) {
@@ -40,7 +49,9 @@ class LibrarianService extends AbstractController
         foreach ($authorsArrayCollection as $author) {
             if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
 
+                // Т.к. автор в БД уже лежит нужно получить указатель на него, иначе хрен велосипед поедет
                 $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
+
                 $author->setBooksCount($author->getBooksCount() + 1);
                 $author->addBook($book);
 

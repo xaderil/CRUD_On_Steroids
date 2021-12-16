@@ -4,10 +4,12 @@ namespace App\Controller\Books;
 
 use App\Entity\Author;
 use App\Entity\Book;
+use App\Event\CreateBookEvent;
 use App\Form\BookType;
 use App\Service\LibrarianService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Logger\ConsoleLogger;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,6 +53,7 @@ class BooklistController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $librarian->makeBookObjectInDatabase($form);
         }
+
 
         return $this->redirectToRoute('books');
 
