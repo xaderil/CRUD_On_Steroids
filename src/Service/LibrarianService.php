@@ -41,30 +41,37 @@ class LibrarianService extends AbstractController
         $book->setDescription($form['description']->getData());
         $book->setPublicationYear($form['publicationYear']->getData());
         $book->setAuthorsCount(count($authorsArrayCollection));
+        foreach ($authorsArrayCollection as $author) {
+            if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
+                // Т.к. автор в БД уже лежит нужно получить указатель на него, иначе хрен велосипед поедет
+                $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
+            } else {
+                $this->entityManager->persist($author);
+                $this->entityManager->flush();
+            }
+            $book->addAuthor($author);
 
+        }
         $this->entityManager->persist($book);
         $this->entityManager->flush();
 
         // Потом перебираем каждого автора книги и чекаем его существование. Если нету - закидываем в БД
-        foreach ($authorsArrayCollection as $author) {
-            if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
-
-                // Т.к. автор в БД уже лежит нужно получить указатель на него, иначе хрен велосипед поедет
-                $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
-
-                $author->setBooksCount($author->getBooksCount() + 1);
-                $author->addBook($book);
-
-            } else {
-
-                $author->addBook($book);
-                $author->setBooksCount(1);
-                $this->entityManager->persist($author);
-
-            }
-
-            $this->entityManager->flush();
-        }
+//        foreach ($authorsArrayCollection as $author) {
+//            if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
+//
+////
+////                $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
+////                $author->addBook($book);
+//
+//            } else {
+//
+////                $author->addBook($book);
+//                $this->entityManager->persist($author);
+//
+//            }
+//
+//            $this->entityManager->flush();
+//        }
 
     }
 
