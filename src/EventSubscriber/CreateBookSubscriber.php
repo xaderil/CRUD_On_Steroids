@@ -11,7 +11,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-
+// Подписчик на postPersist событие
 class CreateBookSubscriber implements EventSubscriber
 {
 

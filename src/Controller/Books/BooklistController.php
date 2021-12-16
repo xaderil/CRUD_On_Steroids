@@ -31,13 +31,7 @@ class BooklistController extends AbstractController
     public function index(Request $request, LibrarianService $librarian): Response
     {
 
-        // Отправляем на страницу форму объекта книги с одним указателем на автора и сразу все книги
-        $book = new Book();
-        $book->addAuthor(new Author());
-
-
         return $this->render('Books/index.html.twig', [
-            'form' => $this->createForm(BookType::class, $book)->createView(),
             'books' => $librarian->getAllBooks()
         ]);
 
@@ -52,8 +46,11 @@ class BooklistController extends AbstractController
         if ($request->get('title') and $request->get('description') and $request->get('publicationYear') and $request->get('authors')) {
 
             $librarian->makeBookObjectInDatabase($request);
+
         } else {
+
             $this->logger->warning('Беда с башкой'); // Сделать валидацию формы на стороне клиента
+
         }
 
         return $this->redirectToRoute('books');

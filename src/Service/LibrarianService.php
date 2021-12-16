@@ -4,18 +4,14 @@ namespace App\Service;
 
 use App\Entity\Author;
 use App\Entity\Book;
-use App\Event\CreateBookEvent;
-use App\EventListener\CreateBookListener;
-use App\EventSubscriber\CreateBookSubscriber;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-
+// Сервис, описывающий библиотекаря, который заведует, как не странно, библиотекой
 class LibrarianService extends AbstractController
 {
     private $entityManager;
@@ -36,7 +32,7 @@ class LibrarianService extends AbstractController
         $book->setTitle($request->get('title'));
         $book->setDescription($request->get('description'));
         $book->setPublicationYear($request->get('publicationYear'));
-        $book->setAuthorsCount($request->get('authors'));
+        $book->setAuthorsCount(count($request->get('authors')));
 
         // Каждого автора книги проверяем на присутствие в БД
         $authorsNames = $request->get('authors');
@@ -75,6 +71,20 @@ class LibrarianService extends AbstractController
     }
 
     public function burnTheBookInTheBonfire(int $id) {
+
+        $book = $this->entityManager->getRepository(Book::class)->find($id);
+        foreach ($book->getAuthors() as $author) {
+
+            if($author->getBooksCount() > 1) {
+
+                $author->setBooksCount($author->getBooksCount()-1);
+
+            } else {
+
+                $this->entityManager->remove($author);
+
+            }
+        }
 
         $this->entityManager->remove($this->entityManager->getRepository(Book::class)->find($id));
         $this->entityManager->flush();
