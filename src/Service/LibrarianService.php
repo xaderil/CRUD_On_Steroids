@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\Author;
 use App\Entity\Book;
 use Doctrine\Persistence\ManagerRegistry;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 
@@ -16,6 +18,8 @@ class LibrarianService extends AbstractController
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->entityManager = $doctrine->getManager();
+        $this->logger = new Logger('name');
+        $this->logger->pushHandler(new StreamHandler('php://stdout', Logger::WARNING)); // <<< uses a stream
     }
 
     public function makeBookObjectInDatabase(FormInterface $form) {
@@ -69,6 +73,5 @@ class LibrarianService extends AbstractController
         $this->entityManager->flush();
 
     }
-
 
 }

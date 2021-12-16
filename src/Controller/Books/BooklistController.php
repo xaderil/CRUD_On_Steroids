@@ -7,10 +7,16 @@ use App\Entity\Book;
 use App\Form\BookType;
 use App\Service\LibrarianService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+
 
 class BooklistController extends AbstractController
 {
@@ -24,6 +30,7 @@ class BooklistController extends AbstractController
         // Отправляем на страницу форму объекта книги с одним указателем на автора и сразу все книги
         $book = new Book();
         $book->addAuthor(new Author());
+
 
         return $this->render('Books/index.html.twig', [
             'form' => $this->createForm(BookType::class, $book)->createView(),
@@ -45,7 +52,7 @@ class BooklistController extends AbstractController
             $librarian->makeBookObjectInDatabase($form);
         }
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('books');
 
     }
 
@@ -56,7 +63,7 @@ class BooklistController extends AbstractController
     {
 
         $librarian->burnTheBookInTheBonfire($bookID);
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('books');
 
     }
 }
