@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 class LibrarianService extends AbstractController
 {
     private $entityManager;
-    private $dispatcher;
     private $logger;
 
     public function __construct(ManagerRegistry $doctrine)
@@ -29,21 +28,18 @@ class LibrarianService extends AbstractController
         $this->logger = new Logger('name');
         $this->logger->pushHandler(new StreamHandler('php://stdout', Logger::WARNING));
 
-        $this->dispatcher = new EventDispatcher();
     }
 
     public function makeBookObjectInDatabase(Request $request) {
-
-        // Сначала объект книги закидываем
-
-        $authorsNames = $request->get('authors');
 
         $book = new Book();
         $book->setTitle($request->get('title'));
         $book->setDescription($request->get('description'));
         $book->setPublicationYear($request->get('publicationYear'));
-        $book->setAuthorsCount(count($authorsNames));
+        $book->setAuthorsCount($request->get('authors'));
 
+        // Каждого автора книги проверяем на присутствие в БД
+        $authorsNames = $request->get('authors');
         foreach ($authorsNames as $authorName) {
 
             if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $authorName))) {
@@ -53,6 +49,7 @@ class LibrarianService extends AbstractController
 
             } else {
 
+                // Если автора в БД нет, то закинем его туда
                 $author = new Author();
                 $author->setName($authorName);
                 $this->entityManager->persist($author);
