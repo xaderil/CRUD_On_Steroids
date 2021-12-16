@@ -7,6 +7,7 @@ use App\Entity\Book;
 use App\Event\CreateBookEvent;
 use App\Form\BookType;
 use App\Service\LibrarianService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -22,6 +23,14 @@ use Monolog\Handler\StreamHandler;
 
 class BooklistController extends AbstractController
 {
+
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = new Logger('log');
+        $this->logger->pushHandler(new StreamHandler('php://stdout', Logger::WARNING));
+    }
 
     /**
      * @Route("/books", name="books")
@@ -42,18 +51,17 @@ class BooklistController extends AbstractController
     }
 
     /**
-     * @Route("/books/createBook", name="createBook")
+     * @Route("/books/createBook", name="createBook", methods={"POST"})
      */
     public function createBook(Request $request, LibrarianService $librarian): RedirectResponse
     {
 
-        $form = $this->createForm(BookType::class);
-        $form->handleRequest($request);
+        if ($request->get('title') and $request->get('description') and $request->get('publicationYear') and $request->get('authors')) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $librarian->makeBookObjectInDatabase($form, $request);
+            $librarian->makeBookObjectInDatabase($request);
+        } else {
+            $this->logger->warning('Беда с башкой'); // Сделать валидацию формы на стороне клиента
         }
-
 
         return $this->redirectToRoute('books');
 

@@ -32,70 +32,38 @@ class LibrarianService extends AbstractController
         $this->dispatcher = new EventDispatcher();
     }
 
-    public function makeBookObjectInDatabase(FormInterface $form, Request $request) {
+    public function makeBookObjectInDatabase(Request $request) {
 
-
-        $requestObject = $request->request;
-        foreach ($requestObject->all() as $data) {
-            if(is_array($data)) {
-                foreach ($data as $string) {
-                    if (is_array($string)) {
-                        foreach ($string as $elem) {
-                            if (is_array($elem)) {
-                                foreach ($elem as $hui) {
-                                    $this->logger->warning($hui);
-                                }
-                            } else {
-                                $this->logger->warning($elem);
-                            }
-                        }
-                    } else {
-                        $this->logger->warning($string);
-                    }
-                }
-            } else {
-                $this->logger->warning($data);
-            }
-
-        }
-        ;
         // Сначала объект книги закидываем
+
+        $authorsNames = $request->get('authors');
+
         $book = new Book();
-        $book->setTitle($form['title']->getData());
-        $book->setDescription($form['description']->getData());
-        $book->setPublicationYear($form['publicationYear']->getData());
-        $book->setAuthorsCount(count($authors));
-        foreach ($authors as $author) {
-            if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
+        $book->setTitle($request->get('title'));
+        $book->setDescription($request->get('description'));
+        $book->setPublicationYear($request->get('publicationYear'));
+        $book->setAuthorsCount(count($authorsNames));
+
+        foreach ($authorsNames as $authorName) {
+
+            if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $authorName))) {
+
                 // Т.к. автор в БД уже лежит нужно получить указатель на него, иначе хрен велосипед поедет
-                $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
+                $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $authorName));
+
             } else {
+
+                $author = new Author();
+                $author->setName($authorName);
                 $this->entityManager->persist($author);
                 $this->entityManager->flush();
+
             }
             $book->addAuthor($author);
 
         }
         $this->entityManager->persist($book);
         $this->entityManager->flush();
-
-        // Потом перебираем каждого автора книги и чекаем его существование. Если нету - закидываем в БД
-//        foreach ($authorsArrayCollection as $author) {
-//            if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()))) {
-//
-////
-////                $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $author->getName()));
-////                $author->addBook($book);
-//
-//            } else {
-//
-////                $author->addBook($book);
-//                $this->entityManager->persist($author);
-//
-//            }
-//
-//            $this->entityManager->flush();
-//        }
 
     }
 
