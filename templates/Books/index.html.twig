@@ -54,6 +54,22 @@
     </div>
 
 
+{#    Кнопки с двумя запросами (SQL и ORM)#}
+
+    <div class="row mt-4">
+        <div class="col"></div>
+        <div class="col">
+            <div class="row">
+                <div class="col"><button onclick="location.href='http://localhost:8000/books/sql'" type="button" class="btn btn-dark no-gutters btn-block">Запрос через SQL</button></div>
+                <div class="col"><button onclick="location.href='http://localhost:8000/books/orm'" type="button" class="btn btn-dark no-gutters btn-block">Запрос через ORM</button></div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+
+
+
+
     {# Вставка блоков с модальными окнами #}
     {# block("loginForm", "htmlForms/loginForm.html.twig") #}
 {#    {{ block("addBookForm", "htmlForms/addBookForm.html.twig") }}#}

@@ -2,9 +2,6 @@
 
 namespace App\Controller\Books;
 
-use App\Entity\Author;
-use App\Entity\Book;
-use App\Form\BookType;
 use App\Service\LibrarianService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
