@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\Author;
 use App\Entity\Book;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -63,6 +65,34 @@ class LibrarianService extends AbstractController
     public function getAllBooks(): array
     {
         return $this->entityManager->getRepository(Book::class)->findAll();
+    }
+
+    public function getRequiredBooksUsingSQL() : array
+    {
+        $rsm = new ResultSetMappingBuilder($this->entityManager);
+        $query = $this->entityManager->createNativeQuery(
+            "SELECT *
+                 FROM book 
+                 WHERE authors_count > 2
+                 ORDER BY authors_count DESC"
+            ,$rsm);
+        return $query->getResult();
+    }
+
+    public function getRequiredBooksUsingORM() : array
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $query =
+            $qb->select(array('b'))
+            ->from('App:Book', 'b')
+            ->where(
+                $qb->expr()->gt('b.authorsCount', 2)
+            )
+            ->orderBy('b.authorsCount', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+
     }
 
     public function getAllAuthors(): array
