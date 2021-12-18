@@ -30,7 +30,7 @@ class Book
     private $description;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $authorsCount;
 
@@ -45,7 +45,7 @@ class Book
     private $picture;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Author::class, inversedBy="books")
+     * @ORM\ManyToMany(targetEntity=Author::class, inversedBy="books", cascade={"persist"})
      */
     private $authors;
 
@@ -132,6 +132,8 @@ class Book
         if (!$this->authors->contains($author)) {
             $this->authors[] = $author;
         }
+
+//        $author->addBook($this);
 
         return $this;
     }

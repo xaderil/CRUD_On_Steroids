@@ -28,3 +28,17 @@ services:
     App\EventSubscriber\CreateBookSubscriber:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+
+    admin.books:
+        class: App\Admin\BooksAdmin
+        arguments: [~, App\Entity\Book, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Book }
+        public: true
+
+    admin.author:
+        class: App\Admin\AuthorAdmin
+        arguments: [~, App\Entity\Author, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Author }
+        public: true
