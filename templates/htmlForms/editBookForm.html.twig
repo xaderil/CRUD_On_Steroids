@@ -1,0 +1,48 @@
+{% block editBook %}
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="editBook">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактирование книги</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ path('createBook') }}" method="post">
+                        <div class="form-group">
+                            <label  class="control-label no-gutters ">Название книги</label>
+                            <input type="text" class="form-control inputTitle" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label no-gutters ">Краткое описание</label>
+                            <textarea type="text" class="form-control inputDescription" name="description" placeholder="Краткое описание"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label no-gutters ">Год издания</label>
+                            <input type="text" class="form-control" name="publicationYear" placeholder="Год издания">
+                        </div>
+                        <div class="form-group" style="text-align: center;">
+                            <label  class="control-label no-gutters ">Список авторов</label>
+                            <div class="fields">
+                                <div class="input-group help-block">
+                                    <input type="text" class="form-control" name="authors[]" placeholder="Автор"/>
+                                    <div class="input-group-append">
+                                        <span class="btn input-group-text add-fieldEdit"><i class="fa fa-plus-square"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button type="submit" name="submit" class="btn btn-primary">Добавить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

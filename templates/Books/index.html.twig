@@ -32,7 +32,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="/" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal<?=$value['id'] ?>"><i class="fa fa-edit"></i></a>
+                            <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBook" data-bookId="{{ book.id }}"><i class="fa fa-edit"></i></a>
                             <a href="/books/deleteBook/{{ book.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
@@ -43,15 +43,15 @@
         </div>
     </div>
 
-
-    {# Кнопка добавления книги #}
-    <div class="row justify-content-center">
-        <div class="col"></div>
-        <div class="col-2 justify-content-center">
-            <button class="btn btn-success mb-1 no-gutters btn-block" data-toggle="modal" data-target="#createBookNative"><i class="fa fa-plus-circle no-gutters"></i></button>
-        </div>
-        <div class="col"></div>
+{{ books[1].title }}
+{# Кнопка добавления книги #}
+<div class="row justify-content-center">
+    <div class="col"></div>
+    <div class="col-2 justify-content-center">
+        <button class="btn btn-success mb-1 no-gutters btn-block" data-toggle="modal" data-target="#createBookNative"><i class="fa fa-plus-circle no-gutters"></i></button>
     </div>
+    <div class="col"></div>
+</div>
 
 
 {#    Кнопки с двумя запросами (SQL и ORM)#}
@@ -60,21 +60,16 @@
         <div class="col"></div>
         <div class="col">
             <div class="row">
-                <div class="col"><button onclick="location.href='http://localhost:8000/books/sql'" type="button" class="btn btn-dark no-gutters btn-block">Запрос через SQL</button></div>
-                <div class="col"><button onclick="location.href='http://localhost:8000/books/orm'" type="button" class="btn btn-dark no-gutters btn-block">Запрос через ORM</button></div>
+                <div class="col"><a href="/books/sql" class="btn btn-dark no-gutters btn-block">Запрос через SQL</a></div>
+                <div class="col"><a href="/books/orm" class="btn btn-dark no-gutters btn-block">Запрос через ORM</a></div>
             </div>
         </div>
         <div class="col"></div>
     </div>
 
-
-
-
     {# Вставка блоков с модальными окнами #}
-    {# block("loginForm", "htmlForms/loginForm.html.twig") #}
-{#    {{ block("addBookForm", "htmlForms/addBookForm.html.twig") }}#}
-    {{ block("addBookForm", "htmlForms/addBookFormNative.html.twig") }}
-    {# block("registerForm", "htmlForms/registerForm.html.twig") #}
+{#    {{ block("addBookForm", "htmlForms/addBookFormNative.html.twig") }}#}
+    {{ block("editBook", "htmlForms/editBookForm.html.twig") }}
 
 
 {% endblock %}
