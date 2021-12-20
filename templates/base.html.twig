@@ -19,7 +19,7 @@
         <ul class="row" id="menu">
             <li class = "col justify-content-center"><a href="/authors" class = "text-decoration-none text-reset">СПИСОК АВТОРОВ</a></li>
             <li class = "col justify-content-center"><a href="/books" class = "text-decoration-none text-reset">СПИСОК КНИГ</a></li>
-            <li class = "col justify-content-center"><a href="/admin" class = "text-decoration-none text-reset">Админ-панель</a></li>
+            <li class = "col justify-content-center"><a href="/admin" class = "text-decoration-none text-reset">АДМИН-ПАНЕЛЬ</a></li>
         </ul>
     </div>
 
@@ -47,11 +47,11 @@
 
                 let data = $(event.relatedTarget).data('book_data').split("_")
 
-                $(this).find('.inputTitle').val(data[0])
-                $(this).find('.inputDescription').val(data[1])
-                $(this).find('.inputYear').val(data[2])
-                $(this).find('.inputFirstAuthor').val(data[3])
-
+                $(this).find('.inputBookID').val(data[0])
+                $(this).find('.inputTitle').val(data[1])
+                $(this).find('.inputDescription').val(data[2])
+                $(this).find('.inputYear').val(data[3])
+                $(this).find('.inputFirstAuthor').val(data[4])
 
             })
         </script>

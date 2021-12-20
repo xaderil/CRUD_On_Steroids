@@ -11,6 +11,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="{{ path('editBook') }}" method="post">
+                        <input type="hidden" name="bookID" class="inputBookID">
                         <div class="form-group">
                             <label  class="control-label no-gutters ">Название книги</label>
                             <input type="text" class="form-control inputTitle" name="title">

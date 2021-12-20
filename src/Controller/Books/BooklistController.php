@@ -2,6 +2,7 @@
 
 namespace App\Controller\Books;
 
+use App\Entity\Book;
 use App\Service\LibrarianService;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,6 +62,22 @@ class BooklistController extends AbstractController
     }
 
     /**
+     * @Route("/books/editBook/", name="editBook")
+     */
+    public function editBook(Request $request)
+    {
+
+        if($request->get('title')) {
+            $this->logger->warning("Dick");
+            $this->librarian->editBook($request);
+
+        }
+        return $this->redirectToRoute('books');
+
+    }
+
+
+    /**
      * @Route("/books/deleteBook/{bookID}", name="deleteBook")
      */
     public function deleteBook(int $bookID): RedirectResponse
@@ -70,6 +87,7 @@ class BooklistController extends AbstractController
         return $this->redirectToRoute('books');
 
     }
+
 
 
 

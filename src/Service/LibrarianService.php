@@ -4,9 +4,7 @@ namespace App\Service;
 
 use App\Entity\Author;
 use App\Entity\Book;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -62,10 +60,12 @@ class LibrarianService extends AbstractController
 
     }
 
+
     public function getAllBooks(): array
     {
         return $this->entityManager->getRepository(Book::class)->findAll();
     }
+
 
     public function getRequiredBooksUsingSQL() : array
     {
@@ -78,6 +78,7 @@ class LibrarianService extends AbstractController
             ,$rsm);
         return $query->getResult();
     }
+
 
     public function getRequiredBooksUsingORM() : array
     {
@@ -95,9 +96,22 @@ class LibrarianService extends AbstractController
 
     }
 
+
     public function getAllAuthors(): array
     {
         return $this->entityManager->getRepository(Author::class)->findAll();
+    }
+
+    public function editBook(Request $request) {
+
+        $book = $this->entityManager->getRepository(Book::class)->find($request->get('bookID'));
+        $book->setTitle($request->get('title'));
+        $book->setDescription($request->get('description'));
+        $book->setPublicationYear($request->get('publicationYear'));
+        $book->setAuthorsCount(count($request->get('authors')));
+
+        $this->entityManager->flush();
+
     }
 
     public function burnTheBookInTheBonfire(int $id) {
