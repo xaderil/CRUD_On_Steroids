@@ -1,47 +1,62 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}CRUD{% endblock %}</title>
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/libs/fontawesome-4.7.0/css/font-awesome.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-editable.css') }}">
-    {% endblock %}
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}CRUD{% endblock %}</title>
 
-{# Верхняя линия #}
-<div class = "shadow mb-4">
-    <ul class="row" id="menu">
-        <li class = "col justify-content-center"><a href="/authors" class = "text-decoration-none text-reset">СПИСОК АВТОРОВ</a></li>
-        <li class = "col justify-content-center"><a href="/books" class = "text-decoration-none text-reset">СПИСОК КНИГ</a></li>
-        <li class = "col justify-content-center"><a href="/admin" class = "text-decoration-none text-reset">Админ-панель</a></li>
-    </ul>
-</div>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('assets/libs/fontawesome-4.7.0/css/font-awesome.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-editable.css') }}">
+        {% endblock %}
 
-{% block body %}{% endblock %}
+    </head>
+    <body>
 
-
-{% block javascripts %}
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/add-collection-widget.js') }}"></script>
-    <script src="{{ asset('assets/js/editBook.js') }}"></script>
-    <script src="{{ asset('assets/js/addAuthorField.js') }}"></script>
-    <script src="{{ asset('assets/js/addAuthorFieldForEdit.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap-editable.js') }}"></script>
-{% endblock %}
-
-<footer class="page-footer font-small blue">
-    <div class="footer-copyright text-center py-3">© 2021 Copyright:
-        <a href="https://github.com/xaderil"> Skripnikov M.V.</a>
+    {# Верхняя линия #}
+    <div class = "shadow mb-4">
+        <ul class="row" id="menu">
+            <li class = "col justify-content-center"><a href="/authors" class = "text-decoration-none text-reset">СПИСОК АВТОРОВ</a></li>
+            <li class = "col justify-content-center"><a href="/books" class = "text-decoration-none text-reset">СПИСОК КНИГ</a></li>
+            <li class = "col justify-content-center"><a href="/admin" class = "text-decoration-none text-reset">Админ-панель</a></li>
+        </ul>
     </div>
-</footer>
+
+    {% block body %}{% endblock %}
+
+    <footer class="page-footer font-small blue">
+        <div class="footer-copyright text-center py-3">© 2021 Copyright:
+            <a href="https://github.com/xaderil"> Skripnikov M.V.</a>
+        </div>
+    </footer>
+
+    {% block javascripts %}
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/add-collection-widget.js') }}"></script>
+        <script src="{{ asset('assets/js/addAuthorField.js') }}"></script>
+        <script src="{{ asset('assets/js/addAuthorFieldForEdit.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap-editable.js') }}"></script>
+        <script>
+            $('#editBook').on('show.bs.modal', function (event) {
+
+                let data = $(event.relatedTarget).data('book_data').split("_")
+
+                $(this).find('.inputTitle').val(data[0])
+                $(this).find('.inputDescription').val(data[1])
+                $(this).find('.inputYear').val(data[2])
+                $(this).find('.inputFirstAuthor').val(data[3])
+
+
+            })
+        </script>
+
+    {% endblock %}
 
 </body>
 </html>

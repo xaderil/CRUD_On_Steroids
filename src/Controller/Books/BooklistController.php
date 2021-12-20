@@ -5,6 +5,7 @@ namespace App\Controller\Books;
 use App\Service\LibrarianService;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,6 +71,8 @@ class BooklistController extends AbstractController
 
     }
 
+
+
     /**
      * @Route("/books/{query}", name="filterQuery")
      */
@@ -103,4 +106,5 @@ class BooklistController extends AbstractController
         ]);
 
     }
+
 }

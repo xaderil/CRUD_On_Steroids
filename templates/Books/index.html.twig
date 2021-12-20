@@ -32,7 +32,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBook" data-bookId="{{ book.id }}"><i class="fa fa-edit"></i></a>
+                            <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBook"
+                               data-book_data="{{ "#{book.title}_#{book.description}_#{book.publicationYear}_#{book.authors|first.name}" }}"><i class="fa fa-edit"></i></a>
                             <a href="/books/deleteBook/{{ book.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
@@ -43,7 +44,6 @@
         </div>
     </div>
 
-{{ books[1].title }}
 {# Кнопка добавления книги #}
 <div class="row justify-content-center">
     <div class="col"></div>
@@ -70,6 +70,8 @@
     {# Вставка блоков с модальными окнами #}
 {#    {{ block("addBookForm", "htmlForms/addBookFormNative.html.twig") }}#}
     {{ block("editBook", "htmlForms/editBookForm.html.twig") }}
+
+
 
 
 {% endblock %}
