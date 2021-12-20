@@ -62,6 +62,7 @@ class CreateBookSubscriber implements EventSubscriber
                 $query->setParameter('id', $author->getId());
                 $query->execute();
 
+
             }
         }
     }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Author;
 use App\Entity\Book;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Handler\StreamHandler;
@@ -26,7 +27,7 @@ class LibrarianService extends AbstractController
 
     }
 
-    public function makeBookObjectInDatabase(Request $request) {
+    public function createBook(Request $request) {
 
         $book = new Book();
         $book->setTitle($request->get('title'));
@@ -69,14 +70,15 @@ class LibrarianService extends AbstractController
 
     public function getRequiredBooksUsingSQL() : array
     {
-        $rsm = new ResultSetMappingBuilder($this->entityManager);
+
         $query = $this->entityManager->createNativeQuery(
             "SELECT *
                  FROM book 
                  WHERE authors_count > 2
                  ORDER BY authors_count DESC"
-            ,$rsm);
+            ,new ResultSetMapping());
         return $query->getResult();
+
     }
 
 
@@ -110,7 +112,35 @@ class LibrarianService extends AbstractController
         $book->setPublicationYear($request->get('publicationYear'));
         $book->setAuthorsCount(count($request->get('authors')));
 
+        foreach ($book->getAuthors() as $author) {
+            $book->removeAuthor($author);
+            $author->setBooksCount($author->getBooksCount()-1);
+        }
+
+        foreach ($request->get('authors') as $authorName) {
+
+            if ($this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $authorName))) {
+
+                $author = $this->entityManager->getRepository(Author::class)->findOneBy(array('name' => $authorName));
+
+            } else {
+
+                $author = new Author();
+                $author->setName($authorName);
+                $this->entityManager->persist($author);
+                $this->entityManager->flush();
+
+            }
+
+            $book->addAuthor($author);
+        }
+
         $this->entityManager->flush();
+
+        $query = $this->entityManager->createNativeQuery(
+            'DELETE FROM author WHERE books_count IS NULL'
+            , new ResultSetMapping());
+        $query->execute();
 
     }
 

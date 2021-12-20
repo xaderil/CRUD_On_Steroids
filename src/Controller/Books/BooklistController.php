@@ -49,7 +49,7 @@ class BooklistController extends AbstractController
 
         if ($request->get('title') and $request->get('description') and $request->get('publicationYear') and $request->get('authors')) {
 
-            $this->librarian->makeBookObjectInDatabase($request);
+            $this->librarian->createBook($request);
 
         } else {
 
