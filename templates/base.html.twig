@@ -70,28 +70,21 @@
 
             })
 
-            // function validate() {
-            //
-            //     if( document.createBook.title.value === "" ||
-            //         document.createBook.description.value === "" ||
-            //         document.createBook.publicationYear.value === "" ||
-            //         document.editBook.title.value === "" ||
-            //         document.editBook.description.value === "" ||
-            //         document.editBook.publicationYear.value === "") {
-            //
-            //         alert( "Заполните все поля" );
-            //         return false;
-            //     }
-            //     if (!document.createBook.publicationYear.value.isNumeric() ||
-            //         !document.editBook.publicationYear.value.isNumeric()) {
-            //
-            //         alert("Год должен быть числом")
-            //         return false;
-            //
-            //     }
-            //
-            //     return true;
-            // }
+            $('#showBooks').on('show.bs.modal', function (event) {
+
+                let data = $(event.relatedTarget).data('book_authors').split("_")
+                data.shift()
+                for (const book of data) {
+                    $(this).find('.booksModal').append('<li class="book">' + book + '</li>')
+                }
+            })
+
+            $('#showBooks').on('hidden.bs.modal', function (event) {
+
+                $(this).find('.booksModal').empty()
+
+            })
+
         </script>
 
     {% endblock %}

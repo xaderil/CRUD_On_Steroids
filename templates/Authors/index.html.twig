@@ -21,6 +21,8 @@
                             <td>{{ counter }}</td>
                             <td><i>{{ author.name }}</i></td>
                             <td>{{ author.booksCount }}</td>
+                            <td><a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showBooks"
+                                   data-book_authors="{% for book in author.books %}{{ "_#{book.title}" }}{% endfor %}">Список книг</a></td>
                         </tr>
                     {% endfor %}
                     </thead>
@@ -31,7 +33,7 @@
 
 
     {# Вставка блоков с модальными окнами #}
-{#    {{ block("addBookForm", "htmlForms/addBookForm.html.twig") }}#}
+    {{ block("showBooks", "htmlForms/bookListModal.html.twig") }}
 
 
 {% endblock %}
