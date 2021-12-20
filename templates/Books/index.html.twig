@@ -26,7 +26,8 @@
                         <td> {{ book.publicationYear }}</td>
                         <td>
                             {% if book.authorsCount > 1 %}
-                                <i>{{ book.authors|first.name }}</i> и др.
+                                <i><a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showAuthors"
+                                      data-book_authors="{% for author in book.authors %}{{ "_#{author.name}" }}{% endfor %}">Список авторов</a>
                             {% else %}
                                 <i>{{ book.authors|first.name }}</i>
                             {% endif %}
@@ -70,6 +71,7 @@
     {# Вставка блоков с модальными окнами #}
     {{ block("addBookForm", "htmlForms/addBookFormNative.html.twig") }}
     {{ block("editBook", "htmlForms/editBookForm.html.twig") }}
+    {{ block("showAuthors", "htmlForms/authorsListModal.html.twig") }}
 
 
 

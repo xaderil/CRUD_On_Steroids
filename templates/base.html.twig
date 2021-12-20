@@ -54,6 +54,21 @@
                 $(this).find('.inputFirstAuthor').val(data[4])
 
             })
+
+            $('#showAuthors').on('show.bs.modal', function (event) {
+
+                let data = $(event.relatedTarget).data('book_authors').split("_")
+                data.shift()
+                for (const author of data) {
+                    $(this).find('.authorsModal').append('<li class="author">' + author + '</li>')
+                }
+            })
+
+            $('#showAuthors').on('hidden.bs.modal', function (event) {
+
+                $(this).find('.authorsModal').empty()
+
+            })
         </script>
 
     {% endblock %}
